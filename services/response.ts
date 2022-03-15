@@ -4,16 +4,17 @@ import {Response} from "got";
 // import {JSONPath} from 'jsonpath-plus';
 import {Condition} from "./conditions/condition";
 
-export class AssertableResponse {
+export class AssertableResponse<T> {
 
-    private readonly _resp: Response<any>
+    private readonly _resp: Response<T>
 
-    constructor(resp: Response) {
+    constructor(resp: Response<T>) {
         this._resp = resp
     }
 
     public statusCode = () => this._resp.statusCode
-    public body = (): any => this._resp.body
+    public body = (): T => this._resp.body
+    public headers = () => this._resp.headers
 
     assert(condition: Condition){
         condition.test(this._resp)
@@ -21,8 +22,8 @@ export class AssertableResponse {
     }
 
     logResponse() {
-        console.log("Status Code:" + this._resp.statusCode)
-        console.log("Body:" + JSON.stringify(this._resp.body, null, 4))
+        console.log("Status: " + this._resp.statusCode + " " + this._resp.statusMessage)
+        console.log("Body: \n" + JSON.stringify(this._resp.body, null, 4))
         return this
     }
 }

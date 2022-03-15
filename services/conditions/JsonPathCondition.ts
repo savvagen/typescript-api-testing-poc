@@ -14,7 +14,7 @@ export class JsonPathCondition implements Condition {
     }
 
     test(resp: Response<any>): void {
-        let result: any = JSONPath({path: this.jsonPath, json: resp.body})[0] //jp.query(resp.body, this.jsonPath)[0]
+        let result: any = JSONPath({path: this.jsonPath, json: resp.body})[0]
         assert(JSON.stringify(result) == JSON.stringify(this.value), `Failed jsonPath ${this.jsonPath} check.\nActual: ${JSON.stringify(result)}\nExpected: ${JSON.stringify(this.value)}`)
     }
 

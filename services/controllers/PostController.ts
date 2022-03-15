@@ -1,28 +1,26 @@
 import got, {Response} from "got";
 import {JsonRequest} from "../request";
+import {Post} from "../../models/Post"
+import {BaseController} from "./BaseController";
+import {CookieJar} from "tough-cookie";
 
-export class PostController {
+export class PostController extends BaseController {
 
-    private readonly baseUrl: string | undefined
-    private readonly defaultHeaders = {
-        'Accept': "application/json",
-        'Content-Type': 'application/json'
+
+    constructor(params: { baseUrl: string | undefined; token?: string | undefined; cookies?: CookieJar }) {
+        super(params);
     }
 
-    constructor(baseUrl: string | undefined) {
-        this.baseUrl = baseUrl
-    }
-
-    async getPosts() {
+    public async getPosts() {
         return new JsonRequest()
-            .baseUrl(this.baseUrl).path('/posts')
+            .baseUrl(this.baseUrl).path('posts')
             .headers(this.defaultHeaders)
-            .send()
+            .send<Post[]>()
     }
 
-    async getPostsAssertable() {
+    public async getPostsAssertable() {
         return new JsonRequest()
-            .baseUrl(this.baseUrl).path('/posts')
+            .baseUrl(this.baseUrl).path('posts')
             .headers(this.defaultHeaders)
             .sendAssertable()
     }
@@ -33,14 +31,14 @@ export class PostController {
         // return { body: body, opts: resp}
         // --------------------------------------
         return new JsonRequest()
-            .baseUrl(this.baseUrl).path(`/posts/${id}`)
+            .baseUrl(this.baseUrl).path(`posts/${id}`)
             .headers(this.defaultHeaders)
-            .send()
+            .send<any>()
     }
 
     async getPostByIdAssertable(id: number | string){
         return new JsonRequest()
-            .baseUrl(this.baseUrl).path(`/posts/${id}`)
+            .baseUrl(this.baseUrl).path(`posts/${id}`)
             .headers(this.defaultHeaders)
             .sendAssertable()
     }
@@ -54,13 +52,13 @@ export class PostController {
         // return { body: body, opts: resp}
         // --------------------------------------
         return  new JsonRequest()
-            .baseUrl(this.baseUrl).path("/posts")
+            .baseUrl(this.baseUrl).path("posts")
             .query({category: category})
             .headers(this.defaultHeaders)
-            .send()
+            .send<any>()
     }
 
-    async createPost(json: object){
+    async createPost(post: object){
         // const resp = await got.post(`${this.baseUrl}/posts`, {
         //     json: post,
         //     headers: this.defaultHeaders
@@ -69,11 +67,11 @@ export class PostController {
         // return { body: body, opts: resp}
         // --------------------------------------
         return new JsonRequest()
-            .baseUrl(this.baseUrl).path("/posts")
+            .baseUrl(this.baseUrl).path("posts")
             .method("POST")
-            .body(JSON.stringify(json))
+            .body(JSON.stringify(post))
             .headers(this.defaultHeaders)
-            .send()
+            .send<any>()
     }
 
 }
