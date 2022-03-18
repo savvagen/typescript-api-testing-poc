@@ -25,16 +25,16 @@ export function errorAttachment(error: RequestError) {
     allure.attachment("error", `Name: ${error.name}\nMessage: ${error.message}`, ContentType.TEXT)
 }
 
-export let allureRequestHook = (options: Options)=> {
+export let allureRequestHook = (options: Options): void => {
     requestAttachment(options)
 }
 
-export let allureResponseHook = (response: Response)=> {
+export let allureResponseHook = (response: Response): Response => {
     responseAttachment(response)
     return response
 }
 
-export let allureErrorHook = (error: RequestError) => {
+export let allureErrorHook = (error: RequestError): RequestError => {
     errorAttachment(error)
     return error
 }

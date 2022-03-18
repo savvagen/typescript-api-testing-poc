@@ -12,5 +12,9 @@ export const CONFIG = {
             // `)
         }
         return value
+    },
+
+    getEnv(variable: string, defaultValue: string = ""){
+       return process.env[`${variable}`] != undefined ? process.env[`${variable}`] : defaultValue
     }
 }

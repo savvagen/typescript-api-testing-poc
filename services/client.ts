@@ -1,4 +1,3 @@
-import {promisify} from 'util';
 import {PostController} from "./controllers/PostController";
 import {UserController} from "./controllers/UserController";
 import {CookieJar} from 'tough-cookie';

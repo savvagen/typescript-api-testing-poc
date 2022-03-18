@@ -1,13 +1,11 @@
 import {UserController} from "../services/controllers/UserController";
 import {expect} from "chai";
 import {User} from "../models/User";
-import got, {HTTPError, Response} from "got";
+import {Response} from "got";
 import faker from "@faker-js/faker"
-import exp from "constants";
 import {ApiClient} from "../services/client";
 import {AssertableResponse} from "../services/response";
-import {statusCode, jsonPath} from "../services/conditions/conditions";
-import {strict as assert} from "assert";
+import {jsonPath, statusCode} from "../services/conditions/conditions";
 
 const BASE_URL = process.env.BASE_URL != undefined ? process.env.BASE_UR : "http://localhost:3001/api"
 const CREDENTIALS = {username: "test", password: "test"}
@@ -63,4 +61,5 @@ describe('Users Test Suite', async function() {
         expect({ ...user, ...{id: resp.body.id} }).to.deep.equal(resp.body)
         //assert.deepEqual({ ...user, ...{id: resp.body.id} }, resp.body)
     });
+
 });

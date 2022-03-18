@@ -1,9 +1,11 @@
-import got, {Options, RequestError, Response} from 'got';
+import got, {BeforeRequestHook, Method, Options, RequestError, Response} from 'got';
 import {AssertableResponse} from "./response";
 import {CookieJar} from "tough-cookie";
-import {allureErrorHook, allureRequestHook, allureResponseHook, requestAttachment} from "../utils/allure";
-import {allure} from "allure-mocha/runtime";
-import {ContentType, Status} from "allure-js-commons";
+import {
+    allureErrorHook,
+    allureRequestHook,
+    allureResponseHook,
+} from "../utils/allure";
 
 
 export class JsonRequest {
@@ -13,23 +15,24 @@ export class JsonRequest {
         //prefixUrl: "base_url", // Set BASE_URL here..
         hooks: {
             beforeRequest: [
-                (options: Options)=> {
+                (options: Options) => {
                     console.log(`Request: ${options.method} ${options.url}`)
                 },
-                (options: Options) => allureRequestHook(options)
+                (options: Options) => allureRequestHook(options) // comment when running manually!!!
             ],
             afterResponse: [
                 (response: Response)=> {
                     console.log(`Response: ${response.statusCode} ${response.statusMessage}\n--------`);
                     return response
                 },
-                (response: Response) => allureResponseHook(response)
+                (response: Response) => allureResponseHook(response) // comment when running manually!!!
             ],
             beforeError: [
                 (error: RequestError) => {
-                    console.log("got error: " + error.name); return error
+                    console.log("got error: " + error.name);
+                    return error
                 },
-                (error: RequestError) => allureErrorHook(error)
+                (error: RequestError) => allureErrorHook(error) // comment when running manually!!!
             ]
         }
     }
@@ -59,13 +62,18 @@ export class JsonRequest {
         return this
     }
 
-    method(method: string){
+    method(method: Method){
         this.options.method = method
         return this
     }
 
     body(body: any = {}){
         this.options.body = body
+        return this
+    }
+
+    beforeRequestHook(hook: Function){
+        this.options.hooks.beforeRequest.push(hook)
         return this
     }
 

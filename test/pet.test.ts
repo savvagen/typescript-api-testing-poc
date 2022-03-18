@@ -1,5 +1,4 @@
 import { strict as assert } from "assert";
-import {PetController} from "../services/controllers/PetController";
 import {ResponseValidator} from "response-openapi-validator";
 import {CONFIG} from "../config/npmConfig";
 import {ApiClient} from "../services/client";

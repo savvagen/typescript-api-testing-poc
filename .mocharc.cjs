@@ -1,6 +1,3 @@
-'use strict'
-
-
 module.exports = {
     require: [
         'ts-node/register'
@@ -13,6 +10,4 @@ module.exports = {
     recursive: false,
     reporter: 'mocha-multi-reporters',
     'reporter-option': ['configFile=reporterConfig.json'],
-
-
 }

@@ -1,7 +1,7 @@
-import got, {Response} from "got";
+import {Response} from "got";
 import { strict as assert } from "assert";
 import {expect} from 'chai'
-import {PostController} from "../services/controllers/PostController";
+import { PostController } from "../services/controllers/PostController"
 import {AssertableResponse} from "../services/response";
 import {statusCode, jsonPath } from "../services/conditions/conditions"
 import {Post} from "../models/Post"
@@ -12,14 +12,14 @@ const BASE_URL = process.env.BASE_URL != undefined ? process.env.BASE_URL : "htt
 
 describe('Posts Test Suite', function () {
 
-    let postController = new PostController({baseUrl: BASE_URL, token: ""})
+    let postController = new PostController({baseUrl: BASE_URL})
 
     before(()=>{ console.log("Starting Posts Test Suite") })
     beforeEach(()=>{})
     after(()=>{})
 
     it('should get posts', async function () {
-        const resp: Response<Array<Post>> = await postController.getPosts()
+        const resp = await postController.getPosts()
         assert(resp.statusCode === 200, `status code should be 200, but found ${resp.statusCode}`)
         assert(typeof resp.body == "object")
         expect(resp.body.filter((post: Post) => post.id === 1)[0].id).to.be.equal(1)
@@ -30,9 +30,9 @@ describe('Posts Test Suite', function () {
     it('should get posts with fluent assertions', async function () {
         let resp: AssertableResponse<any> = await postController.getPostsAssertable()
         resp.assert(statusCode(200))
-            //.logResponse()
             .assert(jsonPath("$[0].id", 1))
-            .assert(jsonPath("$[0].comments", [1,52,17]))
+            .assert(jsonPath("$[0].comments[0]", 1))
+            //.logResponse()
     });
 
     it('should get post by id', async function () {
@@ -46,9 +46,9 @@ describe('Posts Test Suite', function () {
     it('should get post by id with fluent assertions', async function () {
         await (await postController.getPostByIdAssertable(1))
             .assert(statusCode(200))
-            .logResponse()
             .assert(jsonPath("$.id", 1))
             .assert(jsonPath("$.title", "Post 1"))
+            .logResponse()
         /*await postController.getPostByIdAssertable(1).then(resp =>{
             resp.assert(statusCode(200))
                 .logResponse()

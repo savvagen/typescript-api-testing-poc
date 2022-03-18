@@ -2,6 +2,7 @@ import {JsonRequest} from "../request";
 import {User} from "../../models/User";
 import {BaseController} from "./BaseController";
 import {CookieJar} from "tough-cookie";
+import {allureRequestHook} from "../../utils/allure";
 
 
 export class UserController extends BaseController {

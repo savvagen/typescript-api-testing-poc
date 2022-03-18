@@ -1,4 +1,3 @@
-import got, {Response} from "got";
 import {JsonRequest} from "../request";
 import {Post} from "../../models/Post"
 import {BaseController} from "./BaseController";
