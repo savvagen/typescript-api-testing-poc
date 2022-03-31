@@ -1,6 +1,11 @@
 {
-  "reporterEnabled": "allure-mocha, spec, tap",
+  "reporterEnabled": "spec, allure-mocha",
   "allureMochaReporterOptions": {
     "resultsDir": "./allure-results"
+  },
+  "mochawesomeReporterOptions": {
+    "reportFilename": "[status]_[datetime]-[name]-report",
+    "timestamp": "longDate",
+    "quiet": false
   }
 }

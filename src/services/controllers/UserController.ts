@@ -1,17 +1,17 @@
 import {JsonRequest} from "../request";
 import {User} from "../../models/User";
-import {BaseController} from "./BaseController";
-import {CookieJar} from "tough-cookie";
-import {allureRequestHook} from "../../utils/allure";
-
+import {BaseController, RequestParams} from "./BaseController";
+import {Description, Feature, Issue, Step, Story, Tms} from "../../decorators/allure";
 
 export class UserController extends BaseController {
 
 
-    constructor(params: { baseUrl: string | undefined; token?: string | undefined; cookies?: CookieJar }) {
+    constructor(params: RequestParams) {
         super(params);
     }
 
+
+    @Step()
     async getToken(credentials: {username: string, password: string}){
         return await (await new JsonRequest()
             .baseUrl(this.baseUrl).path("get_token")
@@ -19,19 +19,26 @@ export class UserController extends BaseController {
                 ...this.defaultHeaders,
                 ...{ Authorization: `Basic ${Buffer.from(`${credentials.username}:${credentials.password}`).toString("base64")}`}
             })
-            .send<any>()
-        ).body.token as string
+            .sendAssertable<any>()
+        ).body().token as string
     }
 
-
+    @Feature("Users Service")
+    @Story("User Service: GET requests")
+    @Issue("google_link", "https//google.com")
+    @Tms("google_link", "https//google.com")
+    @Description("<h2>Get User by ID</h2>")
+    @Step("Get User by ID")
+    @Step()
     async getUser(id: number|string){
         return new JsonRequest()
             .baseUrl(this.baseUrl).path("users/" + id)
             .headers(this.defaultHeaders)
             .cookieJar(this.cookies)
-            .send<User>()
+            .sendAssertable<User>()
     }
 
+    @Step("Get All Users")
     async getUsers(){
         return new JsonRequest()
             .baseUrl(this.baseUrl).path("users")
@@ -40,7 +47,7 @@ export class UserController extends BaseController {
             .sendAssertable<User[]>()
     }
 
-
+    @Step()
     async createUser(user: Omit<User, 'id'>){
         return new JsonRequest()
             .baseUrl(this.baseUrl).path("users")
@@ -50,14 +57,7 @@ export class UserController extends BaseController {
                 ...this.defaultHeaders,
                 ...{ Authorization: "Bearer " + this.token}
             })
-            .send<User>()
+            .sendAssertable<User>()
     }
-
-
-
-
-
-
-
 
 }

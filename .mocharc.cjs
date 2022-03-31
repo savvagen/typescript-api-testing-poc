@@ -1,9 +1,11 @@
 module.exports = {
     require: [
-        'ts-node/register'
+        'ts-node/register',
+        "src/hooks/mocha.ts",
+        "mochawesome/register"
     ],
-    spec: ['test/**/*.test.ts'],
-    ignore: ['test/pet.test.ts'],
+    spec: ['src/test/**/*.test.ts'],
+    ignore: ['src/test/pet.test.ts'],
     timeout: 60000,
     color: true,
     parallel: false,

@@ -1,40 +1,25 @@
 import got, {BeforeRequestHook, Method, Options, RequestError, Response} from 'got';
-import {AssertableResponse} from "./response";
 import {CookieJar} from "tough-cookie";
-import {
-    allureErrorHook,
-    allureRequestHook,
-    allureResponseHook,
-} from "../utils/allure";
+import {AssertableResponse} from "./response";
+import {allureRequestHook, allureResponseHook} from "../hooks/allure";
+import {options} from "tsconfig-paths/lib/options";
 
 
 export class JsonRequest {
+
     private options: any = {
         responseType: "json",
-        //method: "GET" // default method is "GET"
-        //prefixUrl: "base_url", // Set BASE_URL here..
         hooks: {
             beforeRequest: [
-                (options: Options) => {
-                    console.log(`Request: ${options.method} ${options.url}`)
-                },
-                (options: Options) => allureRequestHook(options) // comment when running manually!!!
+                (options: Options) => { console.log(`Request: ${options.method} ${options.prefixUrl}${options.url}`) },
+                (options: Options) => allureRequestHook(options),
             ],
             afterResponse: [
-                (response: Response)=> {
-                    console.log(`Response: ${response.statusCode} ${response.statusMessage}\n--------`);
-                    return response
-                },
-                (response: Response) => allureResponseHook(response) // comment when running manually!!!
-            ],
-            beforeError: [
-                (error: RequestError) => {
-                    console.log("got error: " + error.name);
-                    return error
-                },
-                (error: RequestError) => allureErrorHook(error) // comment when running manually!!!
+                (resp: Response) => allureResponseHook(resp),
+                (resp: Response) => { console.log(`Response: ${resp.url} ${resp.statusCode}-${resp.statusMessage}`); return resp },
             ]
-        }
+        },
+        throwHttpErrors: false
     }
 
     baseUrl(url: string | undefined){

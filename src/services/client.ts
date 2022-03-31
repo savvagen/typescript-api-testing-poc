@@ -1,7 +1,7 @@
 import {PostController} from "./controllers/PostController";
 import {UserController} from "./controllers/UserController";
 import {CookieJar} from 'tough-cookie';
-import {CONFIG} from "../config/npmConfig";
+import {CONFIG} from "../../config/npmConfig";
 import {PetController} from "./controllers/PetController";
 
 const BASE_URL = CONFIG.get("BASE_URL", "http://localhost:3001/api")

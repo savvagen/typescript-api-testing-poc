@@ -1,5 +1,8 @@
 import {CookieJar} from "tough-cookie";
 
+
+export type RequestParams = { baseUrl: string | undefined; token?: string | undefined; cookies?: CookieJar }
+
 export abstract class BaseController {
     public readonly baseUrl: string | undefined
     public token: string | undefined
@@ -10,13 +13,13 @@ export abstract class BaseController {
         'Content-Type': 'application/json'
     }
 
-    protected constructor(params: {baseUrl: string|undefined, token?: string|undefined, cookies?: CookieJar}) {
+    protected constructor(params: RequestParams) {
         this.baseUrl = params.baseUrl
         this.token = params.token
         this.cookies = params.cookies
     }
 
-    refreshToken(token: string|undefined){
+    refreshToken(token: string | undefined){
         this.token = token
     }
 

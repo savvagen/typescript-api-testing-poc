@@ -1,6 +1,6 @@
 import { strict as assert } from "assert";
 import {ResponseValidator} from "response-openapi-validator";
-import {CONFIG} from "../config/npmConfig";
+import {CONFIG} from "../../config/npmConfig";
 import {ApiClient} from "../services/client";
 
 

@@ -1,18 +1,18 @@
-import {BaseController} from "./BaseController";
-import {User} from "../../models/User";
+import {BaseController, RequestParams} from "./BaseController";
 import {JsonRequest} from "../request";
-import {definitions} from '../../out/models'
-import {CookieJar} from "tough-cookie";
+import {definitions} from '../../../out/models'
+import {Step} from "../../decorators/allure";
 
 type petStatus = "pending" | "available"
 
 
 export class PetController extends BaseController {
 
-    constructor(params: { baseUrl: string | undefined; token?: string | undefined; cookies?: CookieJar }) {
+    constructor(params: RequestParams) {
         super(params);
     }
 
+    @Step()
     async getPetByStatus(status: petStatus){
         return new JsonRequest()
             .baseUrl(this.baseUrl).path("v2/pet/findByStatus")
