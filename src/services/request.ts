@@ -2,7 +2,6 @@ import got, {BeforeRequestHook, Method, Options, RequestError, Response} from 'g
 import {CookieJar} from "tough-cookie";
 import {AssertableResponse} from "./response";
 import {allureRequestHook, allureResponseHook} from "../hooks/allure";
-import {options} from "tsconfig-paths/lib/options";
 
 
 export class JsonRequest {

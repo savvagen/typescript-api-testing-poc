@@ -1,6 +1,6 @@
 
 export interface Post {
-    id?: number
+    readonly id?: number
     title: string
     subject: string
     body: string

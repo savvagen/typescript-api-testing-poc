@@ -1,5 +1,5 @@
 {
-  "reporterEnabled": "spec, allure-mocha",
+  "reporterEnabled": "spec, allure-mocha, mochawesome",
   "allureMochaReporterOptions": {
     "resultsDir": "./allure-results"
   },
